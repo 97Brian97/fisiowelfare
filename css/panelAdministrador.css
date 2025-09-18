@@ -1,0 +1,76 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+}
+
+main {
+    padding: 2rem;
+}
+
+.user-management {
+    margin-bottom: 2rem;
+}
+
+.user-management button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.user-lists {
+    display: flex;
+    justify-content: space-between;
+}
+
+.patient-list, .therapist-list {
+    width: 48%;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+#patients-container, #therapists-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 1rem;
+    }
+
+    .user-management button {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .user-lists {
+        flex-direction: column;
+    }
+
+    .patient-list, .therapist-list {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}

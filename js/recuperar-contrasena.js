@@ -1,0 +1,50 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const passwordInput = document.getElementById('contrasena');
+    const confirmPasswordInput = document.getElementById('confirmar-contrasena');
+    const lengthCheck = document.getElementById('length-check');
+    const upperCheck = document.getElementById('upper-check');
+    const numberCheck = document.getElementById('number-check');
+    const toggleIcons = document.querySelectorAll('.toggle-password');
+
+    // Validación en tiempo real
+    passwordInput.addEventListener('keyup', function () {
+        const password = passwordInput.value;
+
+        password.length >= 8 ? lengthCheck.classList.add('valid') : lengthCheck.classList.remove('valid');
+        /[A-Z]/.test(password) ? upperCheck.classList.add('valid') : upperCheck.classList.remove('valid');
+        /\d/.test(password) ? numberCheck.classList.add('valid') : numberCheck.classList.remove('valid');
+    });
+
+    // Mostrar/ocultar contraseña
+    toggleIcons.forEach(icon => {
+        icon.addEventListener('click', function () {
+            const input = this.previousElementSibling;
+            input.type = input.type === 'password' ? 'text' : 'password';
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
+
+    // Enviar formulario
+    const form = document.getElementById("recuperarForm");
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        // Validaciones
+        if (password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)) {
+            alert("❌ La contraseña no cumple los requisitos:\n- Mínimo 8 caracteres\n- Al menos una mayúscula\n- Al menos un número");
+            return;
+        }
+        if (password !== confirmPassword) {
+            alert("❌ Las contraseñas no coinciden.");
+            return;
+        }
+
+        alert("✅ Contraseña recuperada exitosamente.");
+        window.location.href = "Login.html";
+
+    });
+});

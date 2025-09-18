@@ -1,0 +1,40 @@
+
+body.dark-mode {
+    background-color: #333;
+    color: #f4f4f4;
+}
+
+body.dark-mode header {
+    background-color: #222;
+}
+
+body.dark-mode #login-container {
+    background-color: #444;
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 0.5rem;
+    }
+
+    nav a {
+        margin: 0 0.5rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    #login-container {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .form-group input {
+        padding: 6px;
+    }
+
+    button[type="submit"] {
+        padding: 8px 12px;
+    }
+}

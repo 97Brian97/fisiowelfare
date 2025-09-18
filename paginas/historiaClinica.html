@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Clínica - FisioWelfare</title>
+    <link rel="stylesheet" href="../css/historiaClinica.css">
+</head>
+<body>
+    <header>
+        <h1>Historia Clínica</h1>
+        <nav>
+            <a href="listaPacientes.html">Volver a la Lista de Pacientes</a>
+            <a href="../index.html">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="patient-info">
+            <h2 id="patient-name"></h2>
+            <p><strong>ID:</strong> <span id="patient-id"></span></p>
+            <p><strong>DNI:</strong> <span id="patient-dni"></span></p>
+        </div>
+
+        <div id="clinical-history">
+            <h3>Resumen de Historia Clínica</h3>
+            <p id="history-summary"></p>
+        </div>
+
+        <div id="progressions">
+            <h3>Progresiones</h3>
+            <div id="progressions-list"></div>
+            <form id="add-progression-form">
+                <h4>Añadir Nueva Progresión</h4>
+                <textarea id="progression-text" rows="4" required></textarea>
+                <button type="submit">Añadir Progresión</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="../js/historiaClinica.js"></script>
+</body>
+</html>
