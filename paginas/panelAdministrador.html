@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,8 @@
 </head>
 
 <body>
+    <?php include("../BaseDatos/verificar_sesion.php"); ?>
+
     <header>
         <h1>Panel de Administrador</h1>
         <nav>
@@ -30,13 +32,13 @@
             <div class="patient-list">
                 <h3>Pacientes</h3>
                 <div id="patients-container">
-                    <!-- Patient data will be loaded here -->
+                    <p>Cargando pacientes...</p>
                 </div>
             </div>
             <div class="therapist-list">
                 <h3>Terapeutas</h3>
                 <div id="therapists-container">
-                    <!-- Therapist data will be loaded here -->
+                    <p>Cargando terapeutas...</p>
                 </div>
             </div>
         </section>
