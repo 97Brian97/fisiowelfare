@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 const patient = data.paciente;
                 const historia = data.historia;
-                const progresiones = data.progresiones;
+                const evoluciones = data.evoluciones; // ✅ cambiado
 
                 document.getElementById('patient-name').textContent = patient.nombre;
                 document.getElementById('patient-id').textContent = patient.id_paciente;
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!historia) {
                     // No hay historia → mostrar formulario
                     document.getElementById('clinical-history').style.display = "none";
-                    document.getElementById('progressions').style.display = "none";
+                    document.getElementById('evolutions').style.display = "none"; // ✅ cambiado
                     document.getElementById('new-history-form').style.display = "block";
 
                     const form = document.getElementById('create-history-form');
@@ -53,24 +53,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('history-summary').textContent =
                         historia?.motivo_consulta || "Sin información";
 
-                    const progressionsList = document.getElementById('progressions-list');
-                    const renderProgressions = () => {
-                        progressionsList.innerHTML = '';
-                        progresiones.forEach(prog => {
+                    const evolutionsList = document.getElementById('evolutions-list'); // ✅ cambiado
+                    const renderEvolutions = () => {
+                        evolutionsList.innerHTML = '';
+                        evoluciones.forEach(evo => {
                             const item = document.createElement('div');
-                            item.className = 'progression-item';
-                            item.innerHTML = `<p><strong>${prog.fecha}:</strong> ${prog.texto}</p>`;
-                            progressionsList.appendChild(item);
+                            item.className = 'evolution-item'; // ✅ cambiado
+                            item.innerHTML = `<p><strong>${evo.fecha}:</strong> ${evo.texto}</p>`;
+                            evolutionsList.appendChild(item);
                         });
                     };
-                    renderProgressions();
+                    renderEvolutions();
 
-                    const addForm = document.getElementById('add-progression-form');
+                    const addForm = document.getElementById('add-evolution-form'); // ✅ cambiado
                     addForm.addEventListener('submit', (e) => {
                         e.preventDefault();
-                        const texto = document.getElementById('progression-text').value;
+                        const texto = document.getElementById('evolution-text').value; // ✅ cambiado
 
-                        fetch('../BaseDatos/add_progresion.php', {
+                        fetch('../BaseDatos/add_evolucion.php', { // ✅ cambiado
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -81,14 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             .then(res => res.json())
                             .then(resp => {
                                 if (resp.success) {
-                                    progresiones.push({
+                                    evoluciones.push({
                                         fecha: resp.fecha,
                                         texto: texto
                                     });
-                                    renderProgressions();
+                                    renderEvolutions();
                                     addForm.reset();
                                 } else {
-                                    alert("Error al guardar progresión: " + resp.message);
+                                    alert("Error al guardar evolución: " + resp.message);
                                 }
                             });
                     });

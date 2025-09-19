@@ -84,3 +84,12 @@ CREATE TABLE `tratamientos` (
     FOREIGN KEY(`id_historia`) REFERENCES `historias_clinicas`(`id_historia`)
         ON UPDATE CASCADE ON DELETE RESTRICT
 );
+
+CREATE TABLE evoluciones (
+    id_evolucion INT AUTO_INCREMENT PRIMARY KEY,
+    id_historia INT NOT NULL,
+    fecha DATE NOT NULL,
+    texto TEXT NOT NULL,
+    FOREIGN KEY (id_historia) REFERENCES historias_clinicas(id_historia)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
