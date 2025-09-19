@@ -6,19 +6,20 @@ if ($conexion->connect_error) {
     die(json_encode(["success" => false, "message" => "Error en la conexión a la BD."]));
 }
 
-$sql = "SELECT id_paciente, tipo_documento, numero_documento, nombres, apellidos, 
-               fecha_nacimiento, edad, sexo, telefono, email, direccion, estado 
-        FROM pacientes";
+$sql = "SELECT id_usuario, tipo_documento, numero_documento, nombre, apellido, edad, 
+               rol, email, estado 
+        FROM usuarios 
+        WHERE rol = 'fisioterapeuta'";
 
 $resultado = $conexion->query($sql);
 
-$pacientes = [];
+$terapeutas = [];
 if ($resultado->num_rows > 0) {
     while ($row = $resultado->fetch_assoc()) {
-        $pacientes[] = $row;
+        $terapeutas[] = $row;
     }
 }
 
-echo json_encode(["success" => true, "data" => $pacientes]);
+echo json_encode(["success" => true, "data" => $terapeutas]);
 
 $conexion->close();
