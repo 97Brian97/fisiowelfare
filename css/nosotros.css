@@ -1,0 +1,185 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    text-align: center;
+    /* centramos todo por defecto */
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background: #0077b6;
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+}
+
+header img {
+    border-radius: 10px;
+}
+
+header h1 {
+    margin: 0.5rem 0 0;
+    font-size: 2rem;
+}
+
+/* Secciones */
+section {
+    padding: 3rem 1rem;
+    margin: 0 auto;
+}
+
+section h2 {
+    color: #0077b6;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 10px;
+    margin: 1rem auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    max-width: 350px;
+}
+
+.card h3,
+.card h1 {
+    color: #023e8a;
+    margin-bottom: 1rem;
+}
+
+.card p {
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+.card img {
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto 1rem;
+    border-radius: 8px;
+    display: block;
+}
+
+/* Sección Equipo */
+.equipo .card {
+    margin: 0 auto;
+}
+
+.equipo .row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.equipo img {
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    margin-bottom: 1rem;
+}
+
+/* Botones */
+.btn-services,
+.btn-register {
+    margin: 1rem;
+    padding: 0.7rem 1.5rem;
+    font-weight: bold;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn-services {
+    background: #43a047;
+    color: white;
+}
+
+.btn-services:hover {
+    background: #43a047
+}
+
+.btn-register {
+    background: #43a047;
+    color: white;
+}
+
+.btn-register:hover {
+    background: #43a047;
+}
+
+.certificaciones {
+    text-align: center;
+    margin: 4rem 0;
+}
+
+.cert-pares {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.cert-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.cert-pair span {
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Footer */
+footer {
+    background: #023e8a;
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+footer img {
+    width: 80px;
+    margin-bottom: 1rem;
+}
+
+/* Modo oscuro */
+body.dark-mode {
+    background-color: #121212;
+    color: #f5f5f5;
+}
+
+body.dark-mode header {
+    background: #1e3a5f;
+}
+
+body.dark-mode section h2,
+body.dark-mode .card h3,
+body.dark-mode .card h1 {
+    color: #90e0ef;
+}
+
+body.dark-mode .btn-services {
+    background: #00b4d8;
+}
+
+body.dark-mode .btn-register {
+    background: #0096c7;
+}
+
+body.dark-mode footer {
+    background: #03045e;
+}

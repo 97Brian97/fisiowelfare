@@ -39,6 +39,9 @@ CREATE TABLE `citas` (
     `fecha_cita` DATE NOT NULL, 
     `hora_inicio` DATETIME,
     `hora_fin` DATETIME,
+    `tipo_consulta` ENUM('primera_vez','fisioterapia_convencional','fisioterapia_invasiva') NOT NULL,
+    `id_tratamiento` INT NULL,
+    `plan` ENUM('sin_plan','plan_1','plan_2','plan_3') NOT NULL DEFAULT 'sin_plan',
     `estado` ENUM('programada','atendida','cancelada') NOT NULL DEFAULT 'programada',
     `observaciones` TEXT,
     `costo` DECIMAL(10,2) DEFAULT 50000.00,
@@ -46,7 +49,9 @@ CREATE TABLE `citas` (
     FOREIGN KEY(`id_paciente`) REFERENCES `pacientes`(`id_paciente`)
         ON UPDATE CASCADE ON DELETE RESTRICT,
     FOREIGN KEY(`id_usuario`) REFERENCES `usuarios`(`id_usuario`)
-        ON UPDATE CASCADE ON DELETE RESTRICT
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY(`id_tratamiento`) REFERENCES `tratamientos`(`id_tratamiento`)
+        ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE `historias_clinicas` (
