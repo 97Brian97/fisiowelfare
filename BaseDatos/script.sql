@@ -40,7 +40,7 @@ CREATE TABLE `citas` (
     `hora_inicio` DATETIME,
     `hora_fin` DATETIME,
     `tipo_consulta` ENUM('primera_vez','fisioterapia_convencional','fisioterapia_invasiva') NOT NULL,
-    `id_tratamiento` INT NULL,
+    `terapia` VARCHAR(255) NOT NULL,
     `plan` ENUM('sin_plan','plan_1','plan_2','plan_3') NOT NULL DEFAULT 'sin_plan',
     `estado` ENUM('programada','atendida','cancelada') NOT NULL DEFAULT 'programada',
     `observaciones` TEXT,
@@ -49,9 +49,7 @@ CREATE TABLE `citas` (
     FOREIGN KEY(`id_paciente`) REFERENCES `pacientes`(`id_paciente`)
         ON UPDATE CASCADE ON DELETE RESTRICT,
     FOREIGN KEY(`id_usuario`) REFERENCES `usuarios`(`id_usuario`)
-        ON UPDATE CASCADE ON DELETE RESTRICT,
-    FOREIGN KEY(`id_tratamiento`) REFERENCES `tratamientos`(`id_tratamiento`)
-        ON UPDATE CASCADE ON DELETE SET NULL
+        ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE `historias_clinicas` (
@@ -91,10 +89,10 @@ CREATE TABLE `tratamientos` (
 );
 
 CREATE TABLE evoluciones (
-    id_evolucion INT AUTO_INCREMENT PRIMARY KEY,
-    id_historia INT NOT NULL,
-    fecha DATE NOT NULL,
-    texto TEXT NOT NULL,
+    `id_evolucion` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_historia` INT NOT NULL,
+    `fecha` DATE NOT NULL,
+    `informe_evolucion` TEXT NOT NULL,
     FOREIGN KEY (id_historia) REFERENCES historias_clinicas(id_historia)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
