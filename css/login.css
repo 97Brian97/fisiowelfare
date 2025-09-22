@@ -1,116 +1,117 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f9;
+/* ======== ESTILOS BASE ======== */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    background: #f0f0f0;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* ======== CONTENEDOR PRINCIPAL ======== */
 .form-container {
-    background-color: #ffffff;
+    position: relative;
+    width: 400px;
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-    width: 100%;
-    max-width: 450px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, color 0.3s ease;
     text-align: center;
-}
-
-.form-header {
-    margin-bottom: 30px;
 }
 
 .form-header img {
     width: 90px;
-    height: auto;
     margin-bottom: 15px;
 }
 
 .form-header h1 {
+    margin-bottom: 10px;
+    font-size: 2rem;
     color: #333;
-    font-size: 28px;
-    margin: 0;
 }
 
 .form-header p {
     color: #666;
-    margin-top: 8px;
+    margin-bottom: 20px;
 }
 
+/* ======== CAMPOS ======== */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
 }
 
-label {
-    display: block;
+.form-group label {
     font-weight: 600;
+    display: block;
     margin-bottom: 8px;
     color: #333;
-    font-size: 14px;
 }
 
-input {
+.form-group input {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
+    padding: 12px 15px;
     border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 1rem;
+    transition: border 0.3s ease;
 }
 
-input:focus {
-    outline: none;
-    border-color: #0056b3;
-    box-shadow: 0 0 5px rgba(0, 86, 179, 0.2);
+.form-group input:focus {
+    border-color: #007bff;
 }
 
 .password-wrapper {
     position: relative;
-    width: 100%;
 }
 
 .password-wrapper input {
-    padding-right: 45px;
+    padding-right: 40px;
 }
 
 .toggle-password {
     position: absolute;
     top: 50%;
-    right: 15px;
+    right: 12px;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #999;
+    color: #666;
 }
 
+/* ======== BOTÓN ======== */
 .submit-btn {
-    background-color: #0056b3;
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
     width: 100%;
-    margin-top: 10px;
-    transition: background-color 0.3s;
+    padding: 12px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .submit-btn:hover {
-    background-color: #004494;
+    background: #0056b3;
 }
 
+/* ======== LINKS ======== */
 .form-links {
-    margin-top: 25px;
+    margin-top: 20px;
     font-size: 14px;
 }
 
 .form-links a {
-    color: #0056b3;
+    color: #007bff;
     text-decoration: none;
     font-weight: 600;
 }
@@ -120,16 +121,70 @@ input:focus {
 }
 
 .form-links .separator {
-    margin: 0 10px;
+    margin: 0 8px;
     color: #ccc;
 }
 
-@media (max-width: 480px) {
-    .form-container {
-        padding: 20px;
-    }
+/* ======== BOTÓN MODO OSCURO ======== */
+.dark-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 1.6rem;
+    color: #333;
+    transition: color 0.3s ease;
+}
 
-    .form-header h1 {
-        font-size: 24px;
-    }
+.dark-toggle:hover {
+    color: #007bff;
+}
+
+/* ======== MODO OSCURO ======== */
+body.dark-mode {
+    background: #1a1a1a;
+    color: #f1f1f1;
+}
+
+body.dark-mode .form-container {
+    background: #2a2a2a;
+    color: #f1f1f1;
+}
+
+body.dark-mode h1 {
+    color: #fff;
+}
+
+body.dark-mode .form-group label {
+    color: #ddd;
+}
+
+body.dark-mode .form-group input {
+    background: #333;
+    border: 1px solid #555;
+    color: #f1f1f1;
+}
+
+body.dark-mode .form-group input:focus {
+    border-color: #28a745;
+}
+
+body.dark-mode .toggle-password {
+    color: #aaa;
+}
+
+body.dark-mode .submit-btn {
+    background: #28a745;
+}
+
+body.dark-mode .submit-btn:hover {
+    background: #1e7e34;
+}
+
+body.dark-mode .form-links a {
+    color: #28a745;
+}
+
+body.dark-mode .dark-toggle {
+    color: #f1f1f1;
 }
