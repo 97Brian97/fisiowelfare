@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
     } catch (err) {
-        console.error("Error cargando los datos del panel:", err);
+        console.error("Error cargando los datos del panel:", err.message);
     }
 
     // calendario

@@ -414,16 +414,14 @@
     <!--Filtro de servicios-->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const botones = document.querySelectorAll(".nav .nav-link");
+            // SOLO los links del filtro
+            const botones = document.querySelectorAll("#filtro-servicios .nav-link");
             const tarjetas = document.querySelectorAll(".servicio-card");
 
             botones.forEach(boton => {
                 boton.addEventListener("click", e => {
                     e.preventDefault();
-
-                    // quitar la clase active de todos
                     botones.forEach(b => b.classList.remove("active"));
-                    // activar el actual
                     boton.classList.add("active");
 
                     const categoria = boton.textContent.trim().toLowerCase();
@@ -432,14 +430,14 @@
                         if (categoria === "todos") {
                             card.style.display = "block";
                         } else {
-                            card.style.display =
-                                card.dataset.categoria === categoria ? "block" : "none";
+                            card.style.display = (card.dataset.categoria === categoria) ? "block" : "none";
                         }
                     });
                 });
             });
         });
     </script>
+
 
 
 
