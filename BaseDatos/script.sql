@@ -36,6 +36,7 @@ CREATE TABLE `citas` (
     `id_cita` INT NOT NULL AUTO_INCREMENT,
     `id_paciente` INT NOT NULL,
     `id_usuario` INT NOT NULL,
+    `id_plan` INT NOT NULL,
     `fecha_cita` DATE NOT NULL, 
     `hora_inicio` DATETIME,
     `hora_fin` DATETIME,
@@ -47,6 +48,7 @@ CREATE TABLE `citas` (
     `costo` DECIMAL(10,2) DEFAULT 50000.00,
     PRIMARY KEY(`id_cita`),
     FOREIGN KEY(`id_paciente`) REFERENCES `pacientes`(`id_paciente`)
+    FOREIGN KEY(`id_plan`) REFERENCES `pacientes`(`id_plan`)
         ON UPDATE CASCADE ON DELETE RESTRICT,
     FOREIGN KEY(`id_usuario`) REFERENCES `usuarios`(`id_usuario`)
         ON UPDATE CASCADE ON DELETE RESTRICT
@@ -96,3 +98,11 @@ CREATE TABLE evoluciones (
     FOREIGN KEY (id_historia) REFERENCES historias_clinicas(id_historia)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+CREATE TABLE `planes`(
+    `id_plan` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `nombre_plan` VARCHAR(100) NOT NULL,
+    `descripcion` TEXT,
+    `costo` DECIMAL(10,2) NOT NULL CHECK (costo >= 0) ,
+    `numero_sesiones` INT NOT NULL CHECK (numero_sesiones > 0) DEFAULT 1 
+)
