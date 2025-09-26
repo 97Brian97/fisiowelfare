@@ -22,38 +22,48 @@
     <main>
         <form id="agendar-cita-form">
             <div class="form-group">
-                <label for="terapia">Tipo de Terapia</label>
-                <select id="terapia" name="terapia" required>
-                    <option value="">Seleccione un tipo de terapia</option>
-                    <option value="Terapia Manual">Terapia Manual</option>
-                    <option value="Electroterapia">Electroterapia</option>
-                    <option value="Termoterapia">Termoterapia</option>
-                    <option value="Masoterapia">Masoterapia</option>
-                    <option value="Ejercicios Terapéuticos">Ejercicios Terapéuticos</option>
+                <label for="tipo_consulta">Tipo de Consulta</label>
+                <select id="tipo_consulta" name="tipo_consulta" required>
+                    <option value="">Seleccione el tipo de consulta</option>
+                    <option value="primera_vez">Primera Vez</option>
+                    <option value="fisioterapia_convencional">Fisioterapia Convencional</option>
+                    <option value="fisioterapia_invasiva">Fisioterapia Invasiva</option>
                 </select>
             </div>
+
+            <div class="form-group">
+                <label for="terapia">Terapia</label>
+                <select id="terapia" name="terapia" required>
+                    <option value="">Seleccione primero el tipo de consulta</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="fecha">Fecha</label>
                 <input type="date" id="fecha" name="fecha" required>
             </div>
+
             <div class="form-group">
                 <label for="hora">Hora</label>
                 <input type="time" id="hora" name="hora" required>
             </div>
+
             <div class="form-group">
                 <label for="terapeuta">Terapeuta</label>
                 <select id="terapeuta" name="terapeuta" required>
-                    <!-- Options will be loaded dynamically -->
                     <option value="">Seleccione un terapeuta</option>
                 </select>
             </div>
+
             <div class="form-group">
                 <label for="observaciones">Observaciones (opcional)</label>
                 <textarea id="observaciones" name="observaciones" rows="4"></textarea>
             </div>
+
             <button type="submit">Agendar Cita</button>
         </form>
     </main>
+
 
     <script src="../js/agendarCita.js"></script>
     <!--Iconos-->

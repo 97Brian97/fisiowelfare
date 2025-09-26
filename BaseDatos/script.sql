@@ -1,3 +1,4 @@
+-- TABLA PACIENTES
 CREATE TABLE `pacientes` (
     `id_paciente` INT NOT NULL AUTO_INCREMENT,
     `tipo_documento` VARCHAR(50),
@@ -17,6 +18,7 @@ CREATE TABLE `pacientes` (
     PRIMARY KEY(`id_paciente`)
 );
 
+-- TABLA USUARIOS (administradores, terapeutas)
 CREATE TABLE `usuarios` (
     `id_usuario` INT NOT NULL AUTO_INCREMENT,
     `tipo_documento` VARCHAR(50),
@@ -24,7 +26,7 @@ CREATE TABLE `usuarios` (
     `nombre` VARCHAR(255),
     `apellido` VARCHAR(255),
     `edad` INT CHECK (edad BETWEEN 0 AND 120),
-    `rol` ENUM('admin','fisioterapeuta','recepcion') NOT NULL,
+    `rol` ENUM('admin','fisioterapeuta') NOT NULL,
     `email` VARCHAR(255) UNIQUE,
     `contrasena` VARCHAR(255),
     `fecha_registro` DATE DEFAULT (CURRENT_DATE),
@@ -32,17 +34,39 @@ CREATE TABLE `usuarios` (
     PRIMARY KEY(`id_usuario`)
 );
 
+-- TABLA PLANES
+CREATE TABLE `planes` (
+    `id_plan` INT AUTO_INCREMENT PRIMARY KEY,
+    `nombre` VARCHAR(100) NOT NULL,
+    `descripcion` TEXT,
+    `numero_sesiones` INT NOT NULL CHECK (numero_sesiones > 0),
+    `precio` DECIMAL(10,2) NOT NULL CHECK (precio > 0)
+);
+
+-- TABLA RELACIÓN PACIENTE - PLAN
+CREATE TABLE `pacientes_planes` (
+    `id_paciente_plan` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_paciente` INT NOT NULL,
+    `id_plan` INT NOT NULL,
+    `fecha_inicio` DATE DEFAULT (CURRENT_DATE),
+    `sesiones_restantes` INT NOT NULL,
+    `estado` ENUM('activo','finalizado') DEFAULT 'activo',
+    FOREIGN KEY (`id_paciente`) REFERENCES `pacientes`(`id_paciente`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (`id_plan`) REFERENCES `planes`(`id_plan`)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+-- TABLA CITAS
 CREATE TABLE `citas` (
     `id_cita` INT NOT NULL AUTO_INCREMENT,
     `id_paciente` INT NOT NULL,
     `id_usuario` INT NOT NULL,
-    `id_plan` INT NOT NULL,
     `fecha_cita` DATE NOT NULL, 
     `hora_inicio` DATETIME,
     `hora_fin` DATETIME,
     `tipo_consulta` ENUM('primera_vez','fisioterapia_convencional','fisioterapia_invasiva') NOT NULL,
     `terapia` VARCHAR(255) NOT NULL,
-    `plan` ENUM('sin_plan','plan_1','plan_2','plan_3') NOT NULL DEFAULT 'sin_plan',
     `estado` ENUM('programada','atendida','cancelada') NOT NULL DEFAULT 'programada',
     `observaciones` TEXT,
     `costo` DECIMAL(10,2) DEFAULT 50000.00,
@@ -51,9 +75,12 @@ CREATE TABLE `citas` (
     FOREIGN KEY(`id_plan`) REFERENCES `pacientes`(`id_plan`)
         ON UPDATE CASCADE ON DELETE RESTRICT,
     FOREIGN KEY(`id_usuario`) REFERENCES `usuarios`(`id_usuario`)
-        ON UPDATE CASCADE ON DELETE RESTRICT
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY(`id_paciente_plan`) REFERENCES `pacientes_planes`(`id_paciente_plan`)
+        ON UPDATE CASCADE ON DELETE SET NULL
 );
 
+-- TABLA HISTORIAS CLÍNICAS
 CREATE TABLE `historias_clinicas` (
     `id_historia` INT NOT NULL AUTO_INCREMENT,
     `id_paciente` INT NOT NULL,
@@ -76,6 +103,7 @@ CREATE TABLE `historias_clinicas` (
         ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
+-- TABLA TRATAMIENTOS
 CREATE TABLE `tratamientos` (
     `id_tratamiento` INT NOT NULL AUTO_INCREMENT,
     `id_historia` INT NOT NULL,
@@ -90,19 +118,12 @@ CREATE TABLE `tratamientos` (
         ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
-CREATE TABLE evoluciones (
+-- TABLA EVOLUCIONES
+CREATE TABLE `evoluciones` (
     `id_evolucion` INT AUTO_INCREMENT PRIMARY KEY,
     `id_historia` INT NOT NULL,
     `fecha` DATE NOT NULL,
     `informe_evolucion` TEXT NOT NULL,
-    FOREIGN KEY (id_historia) REFERENCES historias_clinicas(id_historia)
+    FOREIGN KEY (`id_historia`) REFERENCES `historias_clinicas`(`id_historia`)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-CREATE TABLE `planes`(
-    `id_plan` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `nombre_plan` VARCHAR(100) NOT NULL,
-    `descripcion` TEXT,
-    `costo` DECIMAL(10,2) NOT NULL CHECK (costo >= 0) ,
-    `numero_sesiones` INT NOT NULL CHECK (numero_sesiones > 0) DEFAULT 1 
-)
