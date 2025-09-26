@@ -1,83 +1,98 @@
 document.addEventListener("DOMContentLoaded", () => {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
-    if(!usuario){ window.location.href="../index.html"; return; }
+    if (!usuario) { window.location.href = "../index.html"; return; }
 
-    document.getElementById("bienvenida").textContent = 
+    // Bienvenida y fecha
+    document.getElementById("bienvenida").textContent =
         `👋 ¡Bienvenido/a, ${usuario.nombres} ${usuario.apellidos}!`;
+    const hoy = new Date();
+    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.querySelector(".welcome p").textContent = `Hoy es ${hoy.toLocaleDateString('es-ES', opciones)}`;
 
-    // Fetch de datos del paciente
+    // Fetch datos del paciente
     fetch(`../BaseDatos/getDatosPaciente.php?id_paciente=${usuario.id}`)
-    .then(res=>res.json())
-    .then(data=>{
-        if(!data.success) throw new Error(data.message);
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) throw new Error(data.message);
 
-        // Próxima cita
-        const cita = data.proximaCita;
-        if(cita){
-            document.getElementById("citaTipo").textContent="Próxima cita";
-            document.getElementById("citaNombreTratamiento").textContent=cita.observaciones||"-";
-            document.getElementById("citaFecha").textContent=cita.fecha_cita;
-            document.getElementById("citaHora").textContent=cita.hora_inicio?cita.hora_inicio.split(" ")[1]:"-";
-        }
+            const cita = data.proximaCita;
+            const btnReprogramar = document.querySelector("#proximaCita .btn-primary");
+            const btnCancelar = document.querySelector("#proximaCita .btn-secondary");
 
-        // Tratamiento activo
-        const trat = data.tratamientoActivo;
-        if(trat){
-            document.getElementById("tratamientoNombre").textContent=trat.nombre_procedimiento;
-            document.getElementById("tratamientoSesiones").textContent=`Estado: ${trat.estado}`;
-        }
+            if (cita) {
+                document.getElementById("citaTipo").textContent = "Próxima cita";
+                document.getElementById("citaNombreTratamiento").textContent =
+                    `${cita.tipo_consulta || "-"} - ${cita.terapia || "-"}`;
+                document.getElementById("citaFecha").textContent = cita.fecha_cita;
+                document.getElementById("citaHora").textContent = cita.hora_inicio ? cita.hora_inicio.split(" ")[1] : "-";
 
-        // Actividad reciente
-        const contenedorActividades = document.getElementById("actividadReciente");
-        contenedorActividades.innerHTML="";
-        data.actividadesRecientes.forEach(act=>{
-            const dl=document.createElement("dl");
-            dl.innerHTML=`
-                <dd>Tratamiento: ${act.nombre_procedimiento||"-"}</dd>
-                <dd>Fecha: ${act.fecha_cita}</dd>
-                <dd>Estado: ${act.estado}</dd>
+                btnReprogramar.disabled = false;
+                btnCancelar.disabled = false;
+
+                btnReprogramar.addEventListener("click", () => {
+                    if (!cita?.id_cita) {
+                        alert("No hay cita para reprogramar.");
+                        return;
+                    }
+                    window.location.href = `reprogramarCita.html?id_cita=${cita.id_cita}`;
+                });
+
+                btnCancelar.addEventListener("click", () => {
+                    if (confirm("¿Deseas cancelar esta cita?")) {
+                        fetch(`../BaseDatos/cancelarCita.php?id_cita=${cita.id}`, { method: "POST" })
+                            .then(res => res.json())
+                            .then(res => {
+                                if (res.success) {
+                                    alert("Cita cancelada correctamente.");
+                                    location.reload();
+                                } else {
+                                    alert("No se pudo cancelar la cita: " + res.message);
+                                }
+                            })
+                            .catch(err => { console.error(err); alert("Error al cancelar la cita."); });
+                    }
+                });
+            } else {
+                btnReprogramar.disabled = true;
+                btnCancelar.disabled = true;
+            }
+
+            // Tratamiento activo
+            const trat = data.tratamientoActivo;
+            if (trat) {
+                document.getElementById("tratamientoNombre").textContent = trat.nombre_procedimiento;
+                document.getElementById("tratamientoSesiones").textContent = `Estado: ${trat.estado}`;
+            }
+
+            // Actividad reciente
+            const contenedorActividades = document.getElementById("actividadReciente");
+            contenedorActividades.innerHTML = "";
+            data.actividadesRecientes.forEach(act => {
+                const dl = document.createElement("dl");
+                dl.innerHTML = `
+                    <dd>Consulta: ${act.tipo_consulta || "-"}</dd>
+                    <dd>Terapia: ${act.nombre_procedimiento || "-"}</dd>
+                    <dd>Fecha: ${act.fecha_cita}</dd>
+                    <dd>Estado: ${act.estado}</dd>
+                `;
+                contenedorActividades.appendChild(dl);
+            });
+
+            // Resumen
+            const resumen = data.resumen;
+            const contenedorResumen = document.getElementById("resumenPaciente");
+            contenedorResumen.innerHTML = `
+                <dl>
+                    <dd>Citas atendidas: ${resumen.atendidas || 0}</dd>
+                    <dd>Citas programadas: ${resumen.programadas || 0}</dd>
+                    <dd>Citas canceladas: ${resumen.canceladas || 0}</dd>
+                </dl>
             `;
-            contenedorActividades.appendChild(dl);
-        });
+        })
+        .catch(err => { console.error(err); alert("No se pudieron cargar los datos del paciente."); });
 
-        // Resumen de citas
-        const resumen=data.resumen;
-        const contenedorResumen=document.getElementById("resumenPaciente");
-        contenedorResumen.innerHTML=`
-            <dl>
-                <dd>Citas atendidas: ${resumen.atendidas||0}</dd>
-                <dd>Citas programadas: ${resumen.programadas||0}</dd>
-                <dd>Citas canceladas: ${resumen.canceladas||0}</dd>
-            </dl>
-        `;
-    })
-    .catch(err=>{ console.error("Error cargando datos:",err); alert("No se pudieron cargar los datos del paciente."); });
-
-    // Botón agendar
-    const btnAgendar=document.getElementById("btnAgendarCita");
-    btnAgendar.addEventListener("click",()=>{ window.location.href="agendarCita.html"; });
-
-    // Botón cerrar sesión
-    const btnCerrar=document.getElementById("btnCerrarSesion");
-    btnCerrar.addEventListener("click",()=>{
-        localStorage.removeItem("usuario");
-        window.location.href="../index.html";
-    });
-
-    // Desplegable perfil por click
-    const btnPerfil = document.getElementById("btnPerfil");
-    const menuPerfil = document.getElementById("menuPerfil");
-    btnPerfil.addEventListener("click",()=>{ menuPerfil.classList.toggle("show"); });
-    document.addEventListener("click",(e)=>{
-        if(!btnPerfil.contains(e.target) && !menuPerfil.contains(e.target)){
-            menuPerfil.classList.remove("show");
-        }
-    });
-
-    // Modo oscuro
-    const btnDarkMode=document.getElementById("btnDarkMode");
-    btnDarkMode.addEventListener("click",()=>{
-        document.body.classList.toggle("dark-mode");
-        btnDarkMode.setAttribute("name", document.body.classList.contains("dark-mode")?"moon-outline":"contrast-outline");
+    // Agendar
+    document.getElementById("btnAgendarCita").addEventListener("click", () => {
+        window.location.href = "agendarCita.html";
     });
 });

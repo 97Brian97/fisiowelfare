@@ -23,7 +23,9 @@ $paciente = $resultPaciente->fetch_assoc();
 
 // Próxima cita
 $sqlCita = $conexion->prepare("
-    SELECT c.fecha_cita, c.hora_inicio, c.hora_fin, c.estado, c.observaciones, u.nombre AS terapeuta
+    SELECT c.fecha_cita, c.hora_inicio, c.hora_fin, c.estado, 
+        c.tipo_consulta, c.terapia, c.observaciones, 
+        u.nombre AS terapeuta
     FROM citas c
     INNER JOIN usuarios u ON c.id_usuario = u.id_usuario
     WHERE c.id_paciente = ? AND c.estado = 'programada'
@@ -49,7 +51,8 @@ $tratamiento = $resultTrat->fetch_assoc();
 
 // Actividad reciente (últimas 3 citas)
 $sqlActividades = $conexion->prepare("
-    SELECT c.fecha_cita, t.nombre_procedimiento, c.estado
+    SELECT c.fecha_cita, c.estado, c.tipo_consulta, c.terapia,
+        t.nombre_procedimiento
     FROM citas c
     LEFT JOIN historias_clinicas h ON c.id_cita = h.id_cita
     LEFT JOIN tratamientos t ON h.id_historia = t.id_historia
