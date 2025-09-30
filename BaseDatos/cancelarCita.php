@@ -1,7 +1,6 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-// Conexión a la base de datos
 $conexion = new mysqli("localhost", "root", "", "fisiowelfare");
 
 if ($conexion->connect_error) {
@@ -9,19 +8,17 @@ if ($conexion->connect_error) {
     exit;
 }
 
-// Verificar que se recibió id_cita
 $id_cita = isset($_POST['id_cita']) ? intval($_POST['id_cita']) : 0;
 if ($id_cita <= 0) {
     echo json_encode(["success" => false, "message" => "ID de cita inválido."]);
     exit;
 }
 
-// Actualizar estado de la cita a 'Cancelada'
 $sql = "UPDATE citas SET estado = 'Cancelada' WHERE id = ?";
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param("i", $id_cita);
 
-if ($stmt->execute()) {
+if ($stmt->execute() && $stmt->affected_rows > 0) {
     echo json_encode(["success" => true, "message" => "Cita cancelada correctamente."]);
 } else {
     echo json_encode(["success" => false, "message" => "No se pudo cancelar la cita."]);

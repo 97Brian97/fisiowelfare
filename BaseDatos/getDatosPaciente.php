@@ -23,7 +23,7 @@ $paciente = $resultPaciente->fetch_assoc();
 
 // Próxima cita
 $sqlCita = $conexion->prepare("
-    SELECT c.fecha_cita, c.hora_inicio, c.hora_fin, c.estado, 
+    SELECT c.id_cita, c.fecha_cita, c.hora_inicio, c.hora_fin, c.estado, 
         c.tipo_consulta, c.terapia, c.observaciones, 
         u.nombre AS terapeuta
     FROM citas c

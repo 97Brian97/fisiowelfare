@@ -69,7 +69,7 @@
                             <dt>Hora:</dt>
                             <dd id="citaHora">-</dd>
                         </dl>
-                        <button class="btn btn-primary">Reprogramar</button>
+                        <button class="btn btn-primary">Reagendar</button>
                         <button class="btn btn-secondary">Cancelar</button>
                     </div>
                 </div>
@@ -109,6 +109,26 @@
             </div>
         </main>
     </div>
+
+    <!-- Modal Reagendar Cita -->
+    <div id="modalReagendar" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeReagendar">&times;</span>
+            <h2>Reagendar Cita</h2>
+            <form id="formReagendar">
+                <input type="hidden" id="idCita" name="id_cita">
+
+                <label for="fechaNueva">Nueva fecha:</label>
+                <input type="date" id="fechaNueva" name="fechaNueva" required>
+
+                <label for="horaNueva">Nueva hora:</label>
+                <input type="time" id="horaNueva" name="horaNueva" required>
+
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </form>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>

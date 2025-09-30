@@ -62,7 +62,7 @@ CREATE TABLE `citas` (
   `id_cita` INT NOT NULL AUTO_INCREMENT,
   `id_paciente` INT NOT NULL,
   `id_usuario` INT NOT NULL,
-  `id_paciente_plan` INT DEFAULT NULL, -- opcional, si quieres enlazar con pacientes_planes
+  `id_paciente_plan` INT DEFAULT NULL,
   `fecha_cita` DATE NOT NULL,
   `hora_inicio` DATETIME,
   `hora_fin` DATETIME,
